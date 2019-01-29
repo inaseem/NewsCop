@@ -1,5 +1,5 @@
 
-package ali.naseem.newscop.models.everything;
+package ali.naseem.newscop.models.headlines;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "articles")
+@Entity(tableName = "headlines")
 public class Article {
 
     @ColumnInfo(name = "source")

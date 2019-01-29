@@ -7,23 +7,22 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
-import ali.naseem.newscop.models.sources.Source;
+import ali.naseem.newscop.models.headlines.Article;
 
 @Dao
-public interface SourcesDao {
-    @Query("SELECT * FROM sources")
-    List<Source> getAll();
+public interface HeadlinesDao {
+    @Query("SELECT * FROM headlines")
+    List<Article> getAll();
 
     @Insert
-    void insertAll(Source... sources);
+    void insertAll(Article... articles);
 
     @Insert
-    void insertAll(List<Source> sources);
+    void insertAll(List<Article> articles);
 
     @Delete
-    void delete(Source source);
+    void delete(Article article);
 
-    @Query("DELETE from sources")
+    @Query("DELETE FROM headlines")
     void deleteAll();
-
 }
