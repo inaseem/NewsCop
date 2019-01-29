@@ -7,10 +7,9 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 
-import ali.naseem.newscop.models.everything.Source;
+import ali.naseem.newscop.models.headlines.Source;
 
-public class Converters {
-
+public class Converter2 {
     @TypeConverter
     public static Source fromString(String value) {
         Type type = new TypeToken<Source>() {
@@ -30,5 +29,4 @@ public class Converters {
         return json;
 
     }
-
 }

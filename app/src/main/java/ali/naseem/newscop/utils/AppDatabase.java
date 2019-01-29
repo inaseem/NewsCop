@@ -11,7 +11,7 @@ import ali.naseem.newscop.utils.daos.HeadlinesDao;
 import ali.naseem.newscop.utils.daos.SourcesDao;
 
 @Database(entities = {Source.class, Article.class, ali.naseem.newscop.models.headlines.Article.class}, version = 1)
-@TypeConverters({Converters.class})
+@TypeConverters({Converters.class, Converter2.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract SourcesDao sourcesDao();
 
