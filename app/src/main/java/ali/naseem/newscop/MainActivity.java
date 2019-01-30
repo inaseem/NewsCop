@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.headlinesFrame, TopFive.newInstance())
                 .commit();
         loadEverything();
-        loadSources();
+        //loadSources();
     }
 
     private void loadEverything() {

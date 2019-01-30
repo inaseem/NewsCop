@@ -1,11 +1,14 @@
 package ali.naseem.newscop;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -26,11 +29,16 @@ public class SourcesActivity extends AppCompatActivity {
 
     private List<Source> sources = new ArrayList<>();
     private SourcesAdapter adapter;
+    private View topicsWarning, sourcesWarning, proceed;
+    private TextView addSources, addTopics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sources);
+        addSources = findViewById(R.id.addSources);
+        addTopics = findViewById(R.id.addTopics);
+        proceed = findViewById(R.id.proceed);
         RecyclerView recyclerView = findViewById(R.id.topicsRecyclerView);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(layoutManager);
@@ -40,6 +48,21 @@ public class SourcesActivity extends AppCompatActivity {
         adapter = new SourcesAdapter(sources, this);
         recyclerView.setAdapter(adapter);
         loadSources();
+        Intent intent = getIntent();
+        if (intent.getStringExtra(Constants.START) == null) {
+            addSources.setVisibility(View.GONE);
+            addTopics.setVisibility(View.GONE);
+            proceed.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent1 = new Intent(SourcesActivity.this, MainActivity.class);
+                    startActivity(intent1);
+                    finish();
+                }
+            });
+        } else {
+            proceed.setVisibility(View.GONE);
+        }
     }
 
     private void loadSources() {
@@ -50,6 +73,7 @@ public class SourcesActivity extends AppCompatActivity {
                 try {
                     SourceApi sourceApi = Utils.getInstance().getGson().fromJson(response, SourceApi.class);
                     if (sourceApi.getStatus().equalsIgnoreCase("ok")) {
+//                        Utils.getInstance().getDatabase().sourcesDao().deleteAll();
                         sources.clear();
                         sources.addAll(sourceApi.getSources());
                         adapter.notifyDataSetChanged();

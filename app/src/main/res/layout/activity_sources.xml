@@ -65,6 +65,7 @@
                 android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/topicsWarning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -74,6 +75,7 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/addTopics"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -111,6 +113,7 @@
                 tools:listitem="@layout/text_item" />
 
             <TextView
+                android:id="@+id/sourcesWarning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -120,6 +123,7 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/addSources"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -132,5 +136,20 @@
             android:layout_width="match_parent"
             android:layout_height="16dp"
             android:background="@color/colorBack" />
+
+        <TextView
+            android:id="@+id/proceed"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_margin="16dp"
+            android:background="@drawable/rouded"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/affogato_bold"
+            android:gravity="center"
+            android:text="Proceed"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimaryNA"
+            android:textSize="18sp" />
     </LinearLayout>
 </ScrollView>

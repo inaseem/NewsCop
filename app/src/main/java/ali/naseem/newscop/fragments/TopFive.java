@@ -24,6 +24,7 @@ import ali.naseem.newscop.R;
 import ali.naseem.newscop.adapters.HeadlinesAdapter;
 import ali.naseem.newscop.models.headlines.Article;
 import ali.naseem.newscop.models.headlines.HeadlinesApi;
+import ali.naseem.newscop.models.sources.Source;
 import ali.naseem.newscop.utils.Aid;
 import ali.naseem.newscop.utils.ApiFactory;
 import ali.naseem.newscop.utils.Constants;
@@ -78,7 +79,14 @@ public class TopFive extends Fragment {
     }
 
     private void loadHeadlines() {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, ApiFactory.HEADLINES, new Response.Listener<String>() {
+        List<Source> savedSources = Utils.getInstance().getDatabase().sourcesDao().getAll();
+        StringBuilder sources = new StringBuilder();
+        if (savedSources.size() > 0) {
+            for (Source source : savedSources) {
+                sources.append(",").append(source.getId());
+            }
+        }
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, ApiFactory.HEADLINES + (savedSources.size() > 0 ? "sources=" + sources.substring(1) : ""), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(Constants.TAG, response);
