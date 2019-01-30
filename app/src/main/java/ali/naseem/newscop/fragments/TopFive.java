@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -26,6 +25,7 @@ import ali.naseem.newscop.adapters.HeadlinesAdapter;
 import ali.naseem.newscop.models.headlines.Article;
 import ali.naseem.newscop.models.headlines.HeadlinesApi;
 import ali.naseem.newscop.utils.Aid;
+import ali.naseem.newscop.utils.ApiFactory;
 import ali.naseem.newscop.utils.Constants;
 import ali.naseem.newscop.utils.Utils;
 
@@ -64,6 +64,7 @@ public class TopFive extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), layoutManager.getOrientation()));
         recyclerView.setHasFixedSize(false);
         recyclerView.setNestedScrollingEnabled(false);
+        items.addAll(Utils.getInstance().getDatabase().headlinesDao().getAll().subList(0, 5));
         if (items.size() == 0) {
             progressBar.setVisibility(View.VISIBLE);
         } else {
@@ -77,7 +78,7 @@ public class TopFive extends Fragment {
     }
 
     private void loadHeadlines() {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "https://newsapi.org/v2/top-headlines?country=us&apiKey=f7f076926fbf4dbf8857183a0717b0cb", new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, ApiFactory.HEADLINES, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(Constants.TAG, response);
@@ -87,7 +88,7 @@ public class TopFive extends Fragment {
                         Utils.getInstance().getDatabase().headlinesDao().deleteAll();
                         Utils.getInstance().getDatabase().headlinesDao().insertAll(headlinesApi.getArticles());
                         items.clear();
-                        items.addAll(Utils.getInstance().getDatabase().headlinesDao().getAll());
+                        items.addAll(Utils.getInstance().getDatabase().headlinesDao().getAll().subList(0, 5));
                         adapter.notifyDataSetChanged();
                         Aid.crossfade(recyclerView, progressBar);
                     }
@@ -98,7 +99,7 @@ public class TopFive extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), "Some Error Occurred" + error, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Some Error Occurred" + error, Toast.LENGTH_SHORT).show();
             }
         });
         Utils.getInstance().addRequest(stringRequest);

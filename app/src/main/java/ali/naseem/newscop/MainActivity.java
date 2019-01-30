@@ -12,8 +12,8 @@ import com.android.volley.toolbox.StringRequest;
 
 import ali.naseem.newscop.fragments.TopFive;
 import ali.naseem.newscop.models.everything.EverythingApi;
-import ali.naseem.newscop.models.headlines.HeadlinesApi;
 import ali.naseem.newscop.models.sources.SourceApi;
+import ali.naseem.newscop.utils.ApiFactory;
 import ali.naseem.newscop.utils.AppDatabase;
 import ali.naseem.newscop.utils.Constants;
 import ali.naseem.newscop.utils.Utils;
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadEverything() {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "https://newsapi.org/v2/everything?q=bitcoin&apiKey=f7f076926fbf4dbf8857183a0717b0cb", new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, ApiFactory.EVERYTHING, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(Constants.TAG, response);
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 //                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadSources() {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "https://newsapi.org/v2/sources?apiKey=f7f076926fbf4dbf8857183a0717b0cb", new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, ApiFactory.SOURCES, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(Constants.TAG, response);
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 //                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }

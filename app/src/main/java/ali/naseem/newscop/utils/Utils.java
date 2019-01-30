@@ -59,9 +59,8 @@ public class Utils {
 
         //return String.format(Locale.getDefault(), "%s %s, %s", parts[2], month[Integer.parseInt(parts[1]) - 1], parts[0]);
         try {
-            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-            SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
-            Date date = inputFormat.parse("2018-04-10T04:00:00.000Z");
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            Date date = inputFormat.parse(string);
             return getDifference(new Date(), date);
         } catch (Exception e) {
             return string;
@@ -94,4 +93,5 @@ public class Utils {
         }
         return diff.append("ago").toString();
     }
+
 }
