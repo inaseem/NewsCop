@@ -10,33 +10,40 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import ali.naseem.newscop.fragments.TopFive;
 import ali.naseem.newscop.models.everything.EverythingApi;
 import ali.naseem.newscop.models.headlines.HeadlinesApi;
 import ali.naseem.newscop.models.sources.SourceApi;
+import ali.naseem.newscop.utils.AppDatabase;
 import ali.naseem.newscop.utils.Constants;
 import ali.naseem.newscop.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
+    private AppDatabase database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        database = Utils.getInstance().getDatabase();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.headlinesFrame, TopFive.newInstance())
+                .commit();
         loadEverything();
-        loadHeadlines();
         loadSources();
     }
 
     private void loadEverything() {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "https://newsapi.org/v2/top-headlines?country=us&apiKey=f7f076926fbf4dbf8857183a0717b0cb", new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, "https://newsapi.org/v2/everything?q=bitcoin&apiKey=f7f076926fbf4dbf8857183a0717b0cb", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(Constants.TAG, response);
                 try {
                     EverythingApi everythingApi = Utils.getInstance().getGson().fromJson(response, EverythingApi.class);
                     if (everythingApi.getStatus().equalsIgnoreCase("ok")) {
-                        Utils.getInstance().getDatabase().articlesDao().deleteAll();
-                        Utils.getInstance().getDatabase().articlesDao().insertAll(everythingApi.getArticles());
+                        database.articlesDao().deleteAll();
+                        database.articlesDao().insertAll(everythingApi.getArticles());
 //                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
@@ -61,34 +68,8 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     SourceApi sourceApi = Utils.getInstance().getGson().fromJson(response, SourceApi.class);
                     if (sourceApi.getStatus().equalsIgnoreCase("ok")) {
-                        Utils.getInstance().getDatabase().sourcesDao().deleteAll();
-                        Utils.getInstance().getDatabase().sourcesDao().insertAll(sourceApi.getSources());
-//                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
-                    }
-                } catch (Exception e) {
-                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, "Some Error Occurred" + error, Toast.LENGTH_SHORT).show();
-            }
-        });
-        Utils.getInstance().addRequest(stringRequest);
-    }
-
-    private void loadHeadlines() {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "https://newsapi.org/v2/top-headlines?country=us&apiKey=f7f076926fbf4dbf8857183a0717b0cb", new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d(Constants.TAG, response);
-                try {
-                    HeadlinesApi headlinesApi = Utils.getInstance().getGson().fromJson(response, HeadlinesApi.class);
-                    if (headlinesApi.getStatus().equalsIgnoreCase("ok")) {
-                        Utils.getInstance().getDatabase().headlinesDao().deleteAll();
-                        Utils.getInstance().getDatabase().headlinesDao().insertAll(headlinesApi.getArticles());
+                        database.sourcesDao().deleteAll();
+                        database.sourcesDao().insertAll(sourceApi.getSources());
 //                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {

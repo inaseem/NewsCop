@@ -3,4 +3,19 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimaryNA">#ffffff</color>
+    <color name="colorPrimaryDarkNA">#000000</color>
+    <color name="colorAccentNA">#000000</color>
+    <color name="colorWindowBackgroundNA">#f8f8f8</color>
+    <color name="horizontalBarColor">#e5e5e5</color>
+    <color name="colorHeadings">#3a3a3a</color>
+    <color name="colorIcon">#636363</color>
+    <color name="colorBackground">#f2f2f2</color>
+    <color name="colorIconSelected">#191926</color>
+    <color name="colorTitles">#0c0c0c</color>
+    <color name="colorStar">#ffc107</color>
+    <color name="colorButtons">#c1c1c1</color>
+    <color name="colorBack">#EEEEEE</color>
+    <color name="colorGreen">#00CE8C</color>
+    <color name="colorOrange">#fc6d38</color>
 </resources>
