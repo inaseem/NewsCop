@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class Utils {
@@ -56,10 +57,8 @@ public class Utils {
     }
 
     public static String getFormatted(String string) {
-
-        //return String.format(Locale.getDefault(), "%s %s, %s", parts[2], month[Integer.parseInt(parts[1]) - 1], parts[0]);
         try {
-            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault());
             Date date = inputFormat.parse(string);
             return getDifference(new Date(), date);
         } catch (Exception e) {

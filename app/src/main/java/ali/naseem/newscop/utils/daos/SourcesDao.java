@@ -14,6 +14,9 @@ public interface SourcesDao {
     @Query("SELECT * FROM sources")
     List<Source> getAll();
 
+    @Query("SELECT * FROM sources where id = :id")
+    Source getSource(String id);
+
     @Insert
     void insertAll(Source... sources);
 

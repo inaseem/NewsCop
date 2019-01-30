@@ -3,6 +3,7 @@
     package="ali.naseem.newscop">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".CopApplication"
         android:allowBackup="true"
@@ -12,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+
+        </activity>
+        <activity android:name=".SourcesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

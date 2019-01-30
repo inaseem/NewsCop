@@ -44,10 +44,8 @@ public class MainActivity extends AppCompatActivity {
                     if (everythingApi.getStatus().equalsIgnoreCase("ok")) {
                         database.articlesDao().deleteAll();
                         database.articlesDao().insertAll(everythingApi.getArticles());
-//                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-//                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }
@@ -70,10 +68,8 @@ public class MainActivity extends AppCompatActivity {
                     if (sourceApi.getStatus().equalsIgnoreCase("ok")) {
                         database.sourcesDao().deleteAll();
                         database.sourcesDao().insertAll(sourceApi.getSources());
-//                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-//                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }

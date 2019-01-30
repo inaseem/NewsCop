@@ -18,4 +18,5 @@
     <color name="colorBack">#EEEEEE</color>
     <color name="colorGreen">#00CE8C</color>
     <color name="colorOrange">#fc6d38</color>
+    <color name="links">#448AFF</color>
 </resources>
