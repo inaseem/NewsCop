@@ -23,7 +23,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -200,12 +199,11 @@ public class SourcesActivity extends AppCompatActivity implements LocationListen
 
     private void addTopic() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Title");
         View view = LayoutInflater.from(this).inflate(R.layout.topic_add, (ViewGroup) addSources.getRootView(), false);
         final EditText input = view.findViewById(R.id.editText);
-        Button add = view.findViewById(R.id.add);
-        Button cancel = view.findViewById(R.id.cancel);
-        builder.setView(LayoutInflater.from(this).inflate(R.layout.topic_add, (ViewGroup) addSources.getRootView(), false));
+        View add = view.findViewById(R.id.add);
+        View cancel = view.findViewById(R.id.cancel);
+        builder.setView(view);
         builder.setCancelable(true);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,13 +213,13 @@ public class SourcesActivity extends AppCompatActivity implements LocationListen
                     Topics topics = new Topics(text);
                     Utils.getInstance().getDatabase().topicsDao().insertAll(topics);
                 }
-                dialog.cancel();
+                dialog.dismiss();
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialog.cancel();
+                dialog.dismiss();
             }
         });
         dialog = builder.create();
