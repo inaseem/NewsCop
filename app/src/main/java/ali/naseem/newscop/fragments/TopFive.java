@@ -65,7 +65,10 @@ public class TopFive extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), layoutManager.getOrientation()));
         recyclerView.setHasFixedSize(false);
         recyclerView.setNestedScrollingEnabled(false);
-        items.addAll(Utils.getInstance().getDatabase().headlinesDao().getAll().subList(0, 5));
+        if (Utils.getInstance().getDatabase().headlinesDao().getAll().size() > 5)
+            items.addAll(Utils.getInstance().getDatabase().headlinesDao().getAll().subList(0, 5));
+        else
+            items.addAll(Utils.getInstance().getDatabase().headlinesDao().getAll());
         if (items.size() == 0) {
             progressBar.setVisibility(View.VISIBLE);
         } else {

@@ -64,6 +64,15 @@
                 android:textColor="@color/colorTitles"
                 android:textSize="18sp" />
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/topicsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                tools:listitem="@layout/text_item" />
+
             <TextView
                 android:id="@+id/topicsWarning"
                 android:layout_width="wrap_content"
@@ -104,7 +113,7 @@
                 android:textSize="18sp" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/topicsRecyclerView"
+                android:id="@+id/sourcesRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"

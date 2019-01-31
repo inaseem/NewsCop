@@ -21,7 +21,7 @@ public interface TopicsDao {
     void insertAll(Topics... topics);
 
     @Insert
-    void insertAll(List<Topics> topics);
+    long insert(Topics topics);
 
     @Delete
     void delete(Topics topics);

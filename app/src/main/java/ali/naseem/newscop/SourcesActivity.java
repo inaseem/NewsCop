@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Locale;
 
 import ali.naseem.newscop.adapters.SourcesAdapter;
+import ali.naseem.newscop.adapters.TopicAdapter;
 import ali.naseem.newscop.models.Topics;
 import ali.naseem.newscop.models.sources.Source;
 import ali.naseem.newscop.models.sources.SourceApi;
@@ -47,7 +48,9 @@ import ali.naseem.newscop.utils.Utils;
 public class SourcesActivity extends AppCompatActivity implements LocationListener {
 
     private List<Source> sources = new ArrayList<>();
+    private List<Topics> topics = new ArrayList<>();
     private SourcesAdapter adapter;
+    private TopicAdapter topicAdapter;
     private View topicsWarning, sourcesWarning, proceed;
     private TextView addSources, addTopics;
     private LocationManager locationManager;
@@ -60,7 +63,9 @@ public class SourcesActivity extends AppCompatActivity implements LocationListen
         addSources = findViewById(R.id.addSources);
         addTopics = findViewById(R.id.addTopics);
         proceed = findViewById(R.id.proceed);
-        RecyclerView recyclerView = findViewById(R.id.topicsRecyclerView);
+        topicsWarning = findViewById(R.id.topicsWarning);
+        sourcesWarning = findViewById(R.id.sourcesWarning);
+        RecyclerView recyclerView = findViewById(R.id.sourcesRecyclerView);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -68,6 +73,22 @@ public class SourcesActivity extends AppCompatActivity implements LocationListen
         recyclerView.setNestedScrollingEnabled(false);
         adapter = new SourcesAdapter(sources, this);
         recyclerView.setAdapter(adapter);
+
+        RecyclerView recyclerView1 = findViewById(R.id.topicsRecyclerView);
+        GridLayoutManager layoutManager1 = new GridLayoutManager(this, 2);
+        recyclerView1.setLayoutManager(layoutManager1);
+        recyclerView1.setItemAnimator(new DefaultItemAnimator());
+        recyclerView1.setHasFixedSize(false);
+        recyclerView1.setNestedScrollingEnabled(false);
+        if (Utils.getInstance().getDatabase().topicsDao().getAll().size() > 0) {
+            topicsWarning.setVisibility(View.GONE);
+        }
+        if (Utils.getInstance().getDatabase().sourcesDao().getAll().size() > 0) {
+            sourcesWarning.setVisibility(View.GONE);
+        }
+        topics.addAll(Utils.getInstance().getDatabase().topicsDao().getAll());
+        topicAdapter = new TopicAdapter(topics, this);
+        recyclerView1.setAdapter(topicAdapter);
         loadSources();
         Intent intent = getIntent();
         if (intent.getStringExtra(Constants.START) == null) {
@@ -211,7 +232,10 @@ public class SourcesActivity extends AppCompatActivity implements LocationListen
                 String text = input.getText().toString().trim();
                 if (text.length() > 1) {
                     Topics topics = new Topics(text);
-                    Utils.getInstance().getDatabase().topicsDao().insertAll(topics);
+                    int id = (int) Utils.getInstance().getDatabase().topicsDao().insert(topics);
+                    topics.setId(id);
+                    SourcesActivity.this.topics.add(topics);
+                    topicAdapter.notifyDataSetChanged();
                 }
                 dialog.dismiss();
             }
