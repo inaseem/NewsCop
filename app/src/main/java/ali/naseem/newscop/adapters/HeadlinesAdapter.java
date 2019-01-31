@@ -1,6 +1,7 @@
 package ali.naseem.newscop.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +15,9 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import ali.naseem.newscop.R;
+import ali.naseem.newscop.WebActivity;
 import ali.naseem.newscop.models.headlines.Article;
+import ali.naseem.newscop.utils.Constants;
 import ali.naseem.newscop.utils.Utils;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
@@ -53,6 +56,14 @@ public class HeadlinesAdapter extends RecyclerView.Adapter<HeadlinesAdapter.View
         holder.source.setText(item.getSource().getName());
         holder.date.setText(Utils.getFormatted(item.getPublishedAt()));
         holder.headline.setText(item.getTitle());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(context,WebActivity.class);
+                intent.putExtra(Constants.URL,item.getUrl());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -8,5 +8,6 @@ public class Constants {
     public static final int TIMEOUT = 5000;
     public static final String START = "start";
     public static final String FIRST_TIME = "initial";
+    public static final String URL = "url";
 
 }
