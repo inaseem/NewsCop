@@ -116,10 +116,19 @@
                 android:id="@+id/sourcesRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:clipToPadding="false"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 app:layoutManager="android.support.v7.widget.GridLayoutManager"
                 tools:listitem="@layout/text_item" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp" />
 
             <TextView
                 android:id="@+id/sourcesWarning"

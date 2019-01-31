@@ -41,6 +41,7 @@ import ali.naseem.newscop.adapters.TopicAdapter;
 import ali.naseem.newscop.models.Topics;
 import ali.naseem.newscop.models.sources.Source;
 import ali.naseem.newscop.models.sources.SourceApi;
+import ali.naseem.newscop.utils.Aid;
 import ali.naseem.newscop.utils.ApiFactory;
 import ali.naseem.newscop.utils.Constants;
 import ali.naseem.newscop.utils.Utils;
@@ -55,6 +56,8 @@ public class SourcesActivity extends AppCompatActivity implements LocationListen
     private TextView addSources, addTopics;
     private LocationManager locationManager;
     private Dialog dialog;
+    private RecyclerView recyclerView;
+    private View progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +68,8 @@ public class SourcesActivity extends AppCompatActivity implements LocationListen
         proceed = findViewById(R.id.proceed);
         topicsWarning = findViewById(R.id.topicsWarning);
         sourcesWarning = findViewById(R.id.sourcesWarning);
-        RecyclerView recyclerView = findViewById(R.id.sourcesRecyclerView);
+        recyclerView = findViewById(R.id.sourcesRecyclerView);
+        progressBar = findViewById(R.id.progressBar);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -89,11 +93,10 @@ public class SourcesActivity extends AppCompatActivity implements LocationListen
         topics.addAll(Utils.getInstance().getDatabase().topicsDao().getAll());
         topicAdapter = new TopicAdapter(topics, this);
         recyclerView1.setAdapter(topicAdapter);
-        loadSources();
         Intent intent = getIntent();
-        if (intent.getStringExtra(Constants.START) == null) {
+        String start = intent.getStringExtra(Constants.START);
+        if (Utils.getInstance().isFirstTime() || start != null) {
             addSources.setVisibility(View.GONE);
-//            addTopics.setVisibility(View.GONE);
             proceed.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -108,9 +111,13 @@ public class SourcesActivity extends AppCompatActivity implements LocationListen
                     addTopic();
                 }
             });
+            Utils.getInstance().setFirstTime(false);
         } else {
-            proceed.setVisibility(View.GONE);
+//            proceed.setVisibility(View.GONE);
+            startActivity(new Intent(SourcesActivity.this, MainActivity.class));
+            finish();
         }
+        loadSources();
     }
 
     void getLocation() {
@@ -134,11 +141,10 @@ public class SourcesActivity extends AppCompatActivity implements LocationListen
                 try {
                     SourceApi sourceApi = Utils.getInstance().getGson().fromJson(response, SourceApi.class);
                     if (sourceApi.getStatus().equalsIgnoreCase("ok")) {
-//                        Utils.getInstance().getDatabase().sourcesDao().deleteAll();
                         sources.clear();
                         sources.addAll(sourceApi.getSources());
                         adapter.notifyDataSetChanged();
-//                        Aid.crossfade(recyclerView, progressBar);
+                        Aid.crossfade(recyclerView, progressBar);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

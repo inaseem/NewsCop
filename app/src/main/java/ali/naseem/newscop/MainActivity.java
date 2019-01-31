@@ -1,84 +1,54 @@
 package ali.naseem.newscop;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
+import android.view.ViewTreeObserver;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-
+import ali.naseem.newscop.fragments.Everything;
 import ali.naseem.newscop.fragments.TopFive;
-import ali.naseem.newscop.models.everything.EverythingApi;
-import ali.naseem.newscop.models.sources.SourceApi;
-import ali.naseem.newscop.utils.ApiFactory;
-import ali.naseem.newscop.utils.AppDatabase;
 import ali.naseem.newscop.utils.Constants;
-import ali.naseem.newscop.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AppDatabase database;
+    private View favourites;
+    private NestedScrollView scrollView;
+    private Everything everything;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        database = Utils.getInstance().getDatabase();
+        scrollView = findViewById(R.id.scrollView);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.headlinesFrame, TopFive.newInstance())
+                .replace(R.id.articlesFrame, everything = Everything.newInstance())
                 .commit();
-//        loadEverything();
-        //loadSources();
-    }
-
-    private void loadEverything() {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, ApiFactory.EVERYTHING, new Response.Listener<String>() {
+        favourites = findViewById(R.id.favourites);
+        favourites.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(String response) {
-                Log.d(Constants.TAG, response);
-                try {
-                    EverythingApi everythingApi = Utils.getInstance().getGson().fromJson(response, EverythingApi.class);
-                    if (everythingApi.getStatus().equalsIgnoreCase("ok")) {
-                        database.articlesDao().deleteAll();
-                        database.articlesDao().insertAll(everythingApi.getArticles());
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, "Some Error Occurred" + error, Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SourcesActivity.class);
+                intent.putExtra(Constants.START, "no");
+                startActivity(intent);
+                finish();
             }
         });
-        Utils.getInstance().addRequest(stringRequest);
-    }
-
-    private void loadSources() {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, ApiFactory.SOURCES, new Response.Listener<String>() {
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
-            public void onResponse(String response) {
-                Log.d(Constants.TAG, response);
-                try {
-                    SourceApi sourceApi = Utils.getInstance().getGson().fromJson(response, SourceApi.class);
-                    if (sourceApi.getStatus().equalsIgnoreCase("ok")) {
-                        database.sourcesDao().deleteAll();
-                        database.sourcesDao().insertAll(sourceApi.getSources());
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+            public void onScrollChanged() {
+                View view = (View) scrollView.getChildAt(scrollView.getChildCount() - 1);
+
+                int diff = (view.getBottom() - (scrollView.getHeight() + scrollView
+                        .getScrollY()));
+
+                if (diff == 0) {
+                    // your pagination code
+                    everything.loadMore();
                 }
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, "Some Error Occurred" + error, Toast.LENGTH_SHORT).show();
-            }
         });
-        Utils.getInstance().addRequest(stringRequest);
     }
 }

@@ -7,5 +7,6 @@ public class Constants {
     public static final String TAG = "news_cop";
     public static final int TIMEOUT = 5000;
     public static final String START = "start";
+    public static final String FIRST_TIME = "initial";
 
 }

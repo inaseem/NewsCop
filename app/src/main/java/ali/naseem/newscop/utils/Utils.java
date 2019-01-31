@@ -102,6 +102,16 @@ public class Utils {
                 .apply();
     }
 
+    public void setFirstTime(boolean what) {
+        preferences.edit()
+                .putBoolean(Constants.FIRST_TIME, what)
+                .apply();
+    }
+
+    public boolean isFirstTime() {
+        return preferences.getBoolean(Constants.FIRST_TIME, true);
+    }
+
     public String getLocation() {
         return preferences.getString(Constants.LOCATION, null);
     }

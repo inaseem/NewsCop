@@ -63,7 +63,6 @@ public class TopFive extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), layoutManager.getOrientation()));
-        recyclerView.setHasFixedSize(false);
         recyclerView.setNestedScrollingEnabled(false);
         if (Utils.getInstance().getDatabase().headlinesDao().getAll().size() > 5)
             items.addAll(Utils.getInstance().getDatabase().headlinesDao().getAll().subList(0, 5));
@@ -92,10 +91,9 @@ public class TopFive extends Fragment {
                 else
                     sources.append(source.getName()).append(",");
             }
-            sources.deleteCharAt(0);
-        }
-        if (Utils.getInstance().getLocation() != null && savedSources.size() == 0) {
-            sources.append("&country=").append(Utils.getInstance().getLocation());
+            sources.deleteCharAt(sources.length() - 1);
+        } else {
+            sources.append("&country=").append(Utils.getInstance().getLocation() == null ? "in" : Utils.getInstance().getLocation());
         }
         StringRequest stringRequest = new StringRequest(Request.Method.GET, ApiFactory.HEADLINES + sources.toString(), new Response.Listener<String>() {
             @Override
