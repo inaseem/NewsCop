@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.headlinesFrame, TopFive.newInstance())
                 .commit();
-        loadEverything();
+//        loadEverything();
         //loadSources();
     }
 

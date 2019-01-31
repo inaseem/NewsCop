@@ -2,6 +2,7 @@ package ali.naseem.newscop.utils;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -18,6 +19,7 @@ public class Utils {
     private static final Utils ourInstance = new Utils();
     private static RequestQueue requestQueue;
     private static Gson gson;
+    private static SharedPreferences preferences;
 
     public static void initialize(Context context) {
         database = Room.databaseBuilder(context,
@@ -27,6 +29,7 @@ public class Utils {
                 .build();
         requestQueue = Volley.newRequestQueue(context);
         gson = new Gson();
+        preferences = context.getSharedPreferences("news_cop", Context.MODE_PRIVATE);
     }
 
     public Gson getGson() {
@@ -91,6 +94,16 @@ public class Utils {
             }
         }
         return diff.append("ago").toString();
+    }
+
+    public void setLocation(String location) {
+        preferences.edit()
+                .putString(Constants.LOCATION, location.toLowerCase())
+                .apply();
+    }
+
+    public String getLocation() {
+        return preferences.getString(Constants.LOCATION, null);
     }
 
 }

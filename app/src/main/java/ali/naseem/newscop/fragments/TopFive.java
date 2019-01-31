@@ -82,11 +82,19 @@ public class TopFive extends Fragment {
         List<Source> savedSources = Utils.getInstance().getDatabase().sourcesDao().getAll();
         StringBuilder sources = new StringBuilder();
         if (savedSources.size() > 0) {
+            sources.append("&sources=");
             for (Source source : savedSources) {
-                sources.append(",").append(source.getId());
+                if (source.getId() != null)
+                    sources.append(source.getId()).append(",");
+                else
+                    sources.append(source.getName()).append(",");
             }
+            sources.deleteCharAt(0);
         }
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, ApiFactory.HEADLINES + (savedSources.size() > 0 ? "sources=" + sources.substring(1) : ""), new Response.Listener<String>() {
+        if (Utils.getInstance().getLocation() != null && savedSources.size() == 0) {
+            sources.append("&country=").append(Utils.getInstance().getLocation());
+        }
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, ApiFactory.HEADLINES + sources.toString(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(Constants.TAG, response);
