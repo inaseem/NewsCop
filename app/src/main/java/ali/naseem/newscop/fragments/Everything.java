@@ -105,9 +105,8 @@ public class Everything extends Fragment {
                     sources.append(source.getName()).append(",");
             }
             sources.deleteCharAt(sources.length() - 1);
-        }
-        if (Utils.getInstance().getLocation() != null && savedSources.size() == 0) {
-            sources.append("&country=").append(Utils.getInstance().getLocation());
+        } else {
+            sources.append("&country=").append(Utils.getInstance().getLocation() == null ? "in" : Utils.getInstance().getLocation());
         }
         List<Topics> topics = Utils.getInstance().getDatabase().topicsDao().getAll();
         if (topics.size() > 0) {
@@ -156,9 +155,8 @@ public class Everything extends Fragment {
                     sources.append(source.getName()).append(",");
             }
             sources.deleteCharAt(sources.length() - 1);
-        }
-        if (Utils.getInstance().getLocation() != null && savedSources.size() == 0) {
-            sources.append("&country=").append(Utils.getInstance().getLocation());
+        } else {
+            sources.append("&country=").append(Utils.getInstance().getLocation() == null ? "in" : Utils.getInstance().getLocation());
         }
         List<Topics> topics = Utils.getInstance().getDatabase().topicsDao().getAll();
         if (topics.size() > 0) {
