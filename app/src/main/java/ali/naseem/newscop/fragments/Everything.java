@@ -1,8 +1,6 @@
 package ali.naseem.newscop.fragments;
 
-
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -77,13 +75,6 @@ public class Everything extends Fragment {
         }
         adapter = new ArticlesAdapter(items, getContext());
         recyclerView.setAdapter(adapter);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-            }
-        });
-
         loadEverything();
         return view;
     }
@@ -106,16 +97,17 @@ public class Everything extends Fragment {
             }
             sources.deleteCharAt(sources.length() - 1);
         } else {
-            sources.append("&country=").append(Utils.getInstance().getLocation() == null ? "in" : Utils.getInstance().getLocation());
-        }
-        List<Topics> topics = Utils.getInstance().getDatabase().topicsDao().getAll();
-        if (topics.size() > 0) {
-            sources.append("&q=");
-            for (Topics topic : topics) {
-                sources.append(topic.getTopicName().toLowerCase()).append(",");
+            List<Topics> topics = Utils.getInstance().getDatabase().topicsDao().getAll();
+            if (topics.size() > 0) {
+                sources.append("&q=");
+                for (Topics topic : topics) {
+                    sources.append(topic.getTopicName().toLowerCase()).append(",");
+                }
+                sources.deleteCharAt(sources.length() - 1);
+                sources.append("&page=").append(++page);
+            } else {
+                sources.append("&q=").append("machine learning").append("&page=").append(page);
             }
-            sources.deleteCharAt(sources.length() - 1);
-            sources.append("&page=").append(++page);
         }
         StringRequest stringRequest = new StringRequest(Request.Method.GET, ApiFactory.EVERYTHING + sources.toString(), new Response.Listener<String>() {
             @Override
@@ -156,16 +148,17 @@ public class Everything extends Fragment {
             }
             sources.deleteCharAt(sources.length() - 1);
         } else {
-            sources.append("&country=").append(Utils.getInstance().getLocation() == null ? "in" : Utils.getInstance().getLocation());
-        }
-        List<Topics> topics = Utils.getInstance().getDatabase().topicsDao().getAll();
-        if (topics.size() > 0) {
-            sources.append("&q=");
-            for (Topics topic : topics) {
-                sources.append(topic.getTopicName().toLowerCase()).append(",");
+            List<Topics> topics = Utils.getInstance().getDatabase().topicsDao().getAll();
+            if (topics.size() > 0) {
+                sources.append("&q=");
+                for (Topics topic : topics) {
+                    sources.append(topic.getTopicName().toLowerCase()).append(",");
+                }
+                sources.deleteCharAt(sources.length() - 1);
+                sources.append("&page=").append(page);
+            } else {
+                sources.append("&q=").append("machine learning").append("&page=").append(page);
             }
-            sources.deleteCharAt(sources.length() - 1);
-            sources.append("&page=").append(page);
         }
         StringRequest stringRequest = new StringRequest(Request.Method.GET, ApiFactory.EVERYTHING + sources.toString(), new Response.Listener<String>() {
             @Override
