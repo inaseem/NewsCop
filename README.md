@@ -7,7 +7,7 @@
   <li>Provide your location access</li>
   <li>Press the heart icon on top left to redefine your favourites</li>
   <li>Press proceed at the bottom</li>
-<ol>
+</ol>
 
 **Libraries used**
 <ol>
