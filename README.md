@@ -2,6 +2,13 @@
 
 <img src="https://raw.githubusercontent.com/naseemali925/NewsCop/master/screenshots/headlines.jpg" width="250">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://raw.githubusercontent.com/naseemali925/NewsCop/master/screenshots/sources.jpg" width="250">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://raw.githubusercontent.com/naseemali925/NewsCop/master/screenshots/foryou.jpg" width="250">
 
+**Steps to use**
+<ol>
+  <li>Provide your location access</li>
+  <li>Press the heart icon on top left to redefine your favourites</li>
+  <li>Press proceed at the bottom</li>
+<ol>
+
 **Libraries used**
 <ol>
   <li>Room</li>
